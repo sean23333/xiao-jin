@@ -1,9 +1,153 @@
-<!-- In HTML Comments are written like this -->
-<!-- They can all be removed for your apps -->
-<!doctype html> <!-- This first line tells browsers to expect modern standard html 5 -->
-<html lang="en-gb"> <!-- This is indicates the page is written in British English, useful for accessibility -->
-<meta charset="utf-8"> <!-- This indicates how the file is encoded. utf-8 is standard -->
-<title>Your Web-app Title</title> <!-- All pages need a title, this will be displayed in the browser's title bar -->
-<link rel="stylesheet" href="default.css"> <!-- Import style sheet – default.css -->
-<link rel="icon" href="./assets/favicon.png"> <!-- Import 'Favorites Icon' – favicon.png -->
-<script type="module" src="main.js"></script> <!-- Load the main script. Must be type="module". Have only one of these -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>snake</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    html,body {
+      height: 100%;
+    }
+
+    body {
+      background: url(./img/WechatIMG2.jpeg) no-repeat;
+      background-size: cover;
+    }
+
+    .btnbox {
+      width: 200px;
+      height: 300px;
+      margin-top: 100px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      align-items: center;
+      position: fixed;
+    }
+
+    .btnbox button {
+      width: 100px;
+      height: 50px;
+      font-size: 23px;
+      background: white;
+      color: black;
+    }
+
+    .map {
+      width: 1000px;
+      height: 600px;
+      background: url(./img/mapbg.png);
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      margin: auto;
+    }
+
+    .map>div {
+      width: 20px;
+      height: 20px;
+      position: absolute;
+      border-radius: 50%;
+    }
+
+    div.head {
+      background: orange;
+    }
+
+    div.body {
+      background:  yellow;
+    }
+
+    div.food {
+      background: yellowgreen;
+
+    }
+
+    .score{
+      font-size: 25px;
+      color: white;
+      
+    }
+    .score span{
+      color: red;
+      font-weight: bold;
+    }
+    .panbg{
+      width: 1000px;
+      height: 600px;
+      background: rgba(0, 0, 0, 0.814) url(./img/gameover.png) no-repeat;
+      background-size: 400px;
+      background-position: center;
+      position: fixed;
+      z-index: 999;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      margin: auto;
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="panbg"></div>
+  <div class="btnbox">
+    <div class="score">score: <span>0</span></div>
+    <button id="start">start</button>
+    <button id="pause">pause</button>
+    <button id="restart">restart</button>  
+  </div>
+  <div class="map"></div>
+  
+  <script src="./food.js"></script>
+  <script src="./snake.js"></script>
+  <script src="./game.js"></script>
+  <script>
+    const game = new Game(".map",".score span",".panbg")
+    const start = document.querySelector("#start")
+    const pause = document.querySelector("#pause")
+    const restart = document.querySelector("#restart")
+
+    start.onclick = function () {
+      game.start()
+    }
+    pause.onclick = function () {
+      game.pause()
+    }
+    restart.onclick = function () {
+      game.restart()
+    }
+    document.onkeydown = function (e) {
+      console.log(e.keyCode)
+      switch (e.keyCode) {
+        case 37:
+        game.change("left")
+          break;
+        case 38:
+        game.change("top")
+          break;
+        case 39:
+        game.change("right")
+          break;
+        case 40:
+        game.change("bottom")
+          break;
+        case 13:
+          game.start()
+          break;
+        case 32:
+          game.pause()
+          break;
+      }
+    }
+  </script>
+</body>
+</html>
